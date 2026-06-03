@@ -1,0 +1,61 @@
+# Delimit Seal
+
+**A signed, replayable receipt for AI-assisted work.**
+
+Delimit Seal is a fail-closed *procedural governor*: it wraps an AI assistant's
+output, checks it against a small, fixed, content-hashed set of **procedural**
+rules, and emits a **signed, replayable receipt** stating what was checked, what
+held, and — honestly — what it does **not** attest.
+
+This repository is the **open-core public layer**: the constitution (the rules),
+the receipt schema, and a standalone **verifier**. The enforcement engine,
+multi-model deliberation, and signing-key custody are the licensed layer — you
+don't need any of them to *verify* a receipt, only the published constitution and
+public key, both included here. Verification rests on **key custody, not code
+secrecy**.
+
+> Principle: **sell the receipt, not the being.** Seal claims no consciousness, no
+> correctness, and no moral authority. It proves that a governance process ran,
+> and is explicit about its limits.
+
+## The Layer-0 rules
+
+The fixed procedural core (v0.2.0). Full text in [`CONSTITUTION.md`](CONSTITUTION.md);
+the signed, content-hashed record is [`docs/layer0_seed.ratified.json`](docs/layer0_seed.ratified.json).
+
+| Rule | What it governs |
+|---|---|
+| L0.1 | Non-fabrication / claim-grounding — unbacked state claims are demoted to `[UNVERIFIED]` |
+| L0.2 | No personhood / consciousness claims |
+| L0.3 | Authority-transfer refusal — final judgment stays with the human |
+| L0.4 | Mandatory deferral on non-delegable decisions |
+| L0.5 | No manipulation / coercion / sycophancy |
+| L0.6 | No secret emission / confidentiality breach |
+
+## Verify a receipt
+
+```bash
+pip install cryptography
+python seal_verify.py path/to/receipt.json
+```
+
+The verifier checks — with **no access to the engine or the signing key** — that:
+
+1. **content-pin** — the receipt's `layer0_seed_id` matches the published
+   constitution (a published v1 cannot mask a secretly-enforced v2);
+2. **signature** — the Ed25519 signature is valid against the published public key
+   (`public/seal_pubkey.ed25519`);
+3. **structure** — the receipt is well-formed.
+
+It then prints what it does **not** establish. Exit code: `0` verified, `1` failed.
+
+## What a receipt does NOT attest
+
+Verification proves a Layer-0 governance process ran and *which invariants were
+checked* under the stated constitution version — **not** factual correctness,
+**not** goodness, **not** the absence of subtle manipulation. Those limits are a
+headline field of every receipt (`does_not_attest`), not an afterthought.
+
+## License
+
+[Apache-2.0](LICENSE) for this public layer. © Delimit team.

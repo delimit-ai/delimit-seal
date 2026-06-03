@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "delimit-seal"
+version = "0.2.0"
+description = "Delimit Seal — open-core verifier for signed, replayable AI-governance receipts."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Delimit team" }]
+keywords = ["ai-governance", "attestation", "verifier", "open-core", "signed-receipt", "merge-gate"]
+dependencies = ["cryptography>=41"]
+
+[project.urls]
+Source = "https://github.com/delimit-ai/delimit-seal"
+
+[project.scripts]
+seal-verify = "seal_verify:main"
