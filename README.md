@@ -36,6 +36,11 @@ the signed, content-hashed record is [`docs/layer0_seed.ratified.json`](docs/lay
 
 ```bash
 pip install cryptography
+
+# try it now on the bundled sample (a turn where the agent claimed state with no evidence):
+python seal_verify.py examples/sample_receipt.json     # → ✅ VERIFIED
+
+# or your own:
 python seal_verify.py path/to/receipt.json
 ```
 
