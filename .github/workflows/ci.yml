@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# least privilege: CI only needs to read the repo
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install
+        run: python -m pip install --upgrade pip cryptography pytest
+      - name: Verify the bundled sample receipt
+        run: python seal_verify.py examples/sample_receipt.json
+      - name: Run tests
+        run: python -m pytest -q
